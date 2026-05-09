@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>שאגת הארי – טופס נתוני לקוח</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+    }
+
+    .header {
+      background: #111111;
+      padding: 28px 36px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 1px;
+      line-height: 1.3;
+    }
+
+    .logo-sub {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-top: 2px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #f0a500;
+      margin-top: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .header-divider {
+      width: 48px;
+      height: 3px;
+      background: #f0a500;
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .form-body {
+      padding: 32px 36px 36px;
+    }
+
+    .form-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 24px;
+      border-right: 4px solid #c8a84b;
+      padding-right: 12px;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 7px;
+    }
+
+    .required-star {
+      color: #c0392b;
+      margin-right: 3px;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      direction: rtl;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      color: #1a1a2e;
+      background: #fafafa;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #c8a84b;
+      box-shadow: 0 0 0 3px rgba(200,168,75,0.15);
+      background: #fff;
+    }
+
+    select.error {
+      border-color: #c0392b;
+      background: #fff5f5;
+    }
+
+    .phone-wrap {
+      display: flex;
+      align-items: center;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .phone-wrap:focus-within {
+      border-color: #c8a84b;
+      box-shadow: 0 0 0 3px rgba(200,168,75,0.15);
+      background: #fff;
+    }
+
+    .phone-wrap.error {
+      border-color: #c0392b;
+      background: #fff5f5;
+    }
+
+    .phone-prefix {
+      padding: 12px 12px 12px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #555;
+      background: #f0f0f0;
+      border-left: 2px solid #e0e0e0;
+      white-space: nowrap;
+      direction: ltr;
+    }
+
+    .phone-wrap input {
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      flex: 1;
+      direction: ltr;
+      text-align: left;
+      padding-right: 14px;
+    }
+
+    .phone-wrap input:focus {
+      outline: none;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      direction: rtl;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      color: #1a1a2e;
+      background: #fafafa;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #c8a84b;
+      box-shadow: 0 0 0 3px rgba(200,168,75,0.15);
+      background: #fff;
+    }
+
+    input.error {
+      border-color: #c0392b;
+      background: #fff5f5;
+    }
+
+    .field-hint {
+      font-size: 11px;
+      color: #888;
+      margin-top: 5px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 24px 0;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #c8a84b, #e8c96d);
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a2e;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(200,168,75,0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 40px 36px;
+    }
+
+    .success-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .success-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+
+    .success-msg {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .error-msg {
+      font-size: 11px;
+      color: #c0392b;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .privacy-note {
+      text-align: center;
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .form-body { padding: 24px 20px 28px; }
+      .header { padding: 24px 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="logo-text">אייל רז ושות׳</div>
+    <div class="logo-sub">רואי חשבון</div>
+    <div class="header-divider"></div>
+    <div class="subtitle">שאלון נתונים לבחינת מענק שאגת הארי</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-body" id="formSection">
+    <div class="form-title">טופס נתוני לקוח – הגשת מענקים</div>
+
+    <form id="clientForm" novalidate>
+
+      <!-- PERSONAL -->
+      <div class="section-label">פרטים אישיים</div>
+
+      <div style="background:#fffbe6;border-right:3px solid #f0a500;border-radius:6px;padding:10px 14px;margin-bottom:18px;font-size:12px;color:#555;line-height:1.7;direction:rtl;text-align:right">
+        לצורך בחינת הזכאות למענק עבור <strong>מבצע שאגת הארי</strong> נא למלא את הפרטים האישיים ואת הנתונים הנדרשים מתוך תוכנת הקבלות שלך.<br/>
+        אנו מסתמכים על נתונים אלה לצורך בחינת המענק, ולכן יש לוודא שהנתונים שירשמו על ידך נכונים.
+      </div>
+
+      <div class="field-group">
+        <label for="fullName">שם מלא <span class="required-star">*</span></label>
+        <input type="text" id="fullName" name="fullName" placeholder="ישראל ישראלי" />
+        <div class="error-msg" id="err-fullName">נא להזין שם מלא</div>
+      </div>
+
+      <div class="field-group">
+        <label for="idNumber">תעודת זהות <span class="required-star">*</span></label>
+        <input type="text" id="idNumber" name="idNumber" placeholder="9 ספרות" maxlength="9" inputmode="numeric" />
+        <div class="error-msg" id="err-idNumber">נא להזין מספר ת.ז. תקין (9 ספרות)</div>
+      </div>
+
+      <div class="field-group">
+        <label for="whatsapp">מספר וואטסאפ <span class="required-star">*</span></label>
+        <div class="phone-wrap">
+          <span class="phone-prefix">🇮🇱 +972</span>
+          <input type="text" id="whatsapp" name="whatsapp" placeholder="05X-XXXXXXX" maxlength="10" inputmode="numeric" />
+        </div>
+        <div class="field-hint">לדוג׳ 0521234567 — כאן תישלח הודעת הזכאות</div>
+        <div class="error-msg" id="err-whatsapp">נא להזין מספר נייד ישראלי תקין</div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- TURNOVER -->
+      <div class="section-label">נתוני מחזור עסקי (₪)</div>
+
+      <div class="field-group">
+        <label for="turnover_3_4_25">מחזור מרץ–אפריל 2025 <span class="required-star">*</span></label>
+        <input type="number" id="turnover_3_4_25" name="turnover_3_4_25" placeholder="0" min="0" inputmode="numeric" />
+        <div class="field-hint">סכום מחזור חודשים 3–4 לשנת 2025</div>
+        <div class="error-msg" id="err-turnover_3_4_25">נא להזין סכום תקין</div>
+      </div>
+
+      <div class="field-group">
+        <label for="turnover_3_4_26">מחזור מרץ–אפריל 2026 <span class="required-star">*</span></label>
+        <input type="number" id="turnover_3_4_26" name="turnover_3_4_26" placeholder="0" min="0" inputmode="numeric" />
+        <div class="field-hint">סכום מחזור חודשים 3–4 לשנת 2026</div>
+        <div class="error-msg" id="err-turnover_3_4_26">נא להזין סכום תקין</div>
+      </div>
+
+      <div class="field-group">
+        <label for="turnover_2025">מחזור שנתי 2025 <span class="required-star">*</span></label>
+        <input type="number" id="turnover_2025" name="turnover_2025" placeholder="0" min="0" inputmode="numeric" />
+        <div class="field-hint">סך המחזור השנתי לשנת 2025</div>
+        <div class="error-msg" id="err-turnover_2025">נא להזין סכום תקין</div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- BANK DETAILS -->
+      <div class="section-label">פרטי בנק</div>
+
+      <div class="field-group">
+        <label for="bankName">שם הבנק <span class="required-star">*</span></label>
+        <select id="bankName" name="bankName">
+          <option value="">-- בחר בנק --</option>
+          <option value="בנק לאומי (10)">בנק לאומי (10)</option>
+          <option value="בנק הפועלים (12)">בנק הפועלים (12)</option>
+          <option value="בנק דיסקונט (11)">בנק דיסקונט (11)</option>
+          <option value="בנק מזרחי טפחות (20)">בנק מזרחי טפחות (20)</option>
+          <option value="הבנק הבינלאומי (31)">הבנק הבינלאומי (31)</option>
+          <option value="בנק ירושלים (54)">בנק ירושלים (54)</option>
+          <option value="בנק יהב (04)">בנק יהב (04)</option>
+          <option value="בנק אוצר החייל (14)">בנק אוצר החייל (14)</option>
+          <option value="בנק מרכנתיל דיסקונט (17)">בנק מרכנתיל דיסקונט (17)</option>
+          <option value="בנק איגוד (13)">בנק איגוד (13)</option>
+          <option value="דקסיה ישראל (68)">דקסיה ישראל (68)</option>
+          <option value="בנק פועלי אגודת ישראל (52)">בנק פועלי אגודת ישראל (52)</option>
+          <option value="ONE ZERO (18)">ONE ZERO (18)</option>
+          <option value="אחר">אחר</option>
+        </select>
+        <div class="error-msg" id="err-bankName">נא לבחור בנק</div>
+      </div>
+
+      <div class="two-col">
+        <div class="field-group">
+          <label for="bankNumber">מספר בנק <span class="required-star">*</span></label>
+          <input type="text" id="bankNumber" name="bankNumber" placeholder="לדוג׳ 12" maxlength="3" inputmode="numeric" />
+          <div class="error-msg" id="err-bankNumber">נא להזין מספר בנק</div>
+        </div>
+        <div class="field-group">
+          <label for="branchNumber">מספר סניף <span class="required-star">*</span></label>
+          <input type="text" id="branchNumber" name="branchNumber" placeholder="לדוג׳ 623" maxlength="5" inputmode="numeric" />
+          <div class="error-msg" id="err-branchNumber">נא להזין מספר סניף</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="accountNumber">מספר חשבון <span class="required-star">*</span></label>
+        <input type="text" id="accountNumber" name="accountNumber" placeholder="מספר חשבון" maxlength="12" inputmode="numeric" />
+        <div class="error-msg" id="err-accountNumber">נא להזין מספר חשבון</div>
+      </div>
+
+      <div class="field-group">
+        <label for="accountHolder">שם בעל החשבון <span class="required-star">*</span></label>
+        <input type="text" id="accountHolder" name="accountHolder" placeholder="כפי שמופיע בחשבון הבנק" />
+        <div class="field-hint">יש להזין את השם המלא כפי שמופיע בחשבון הבנק</div>
+        <div class="error-msg" id="err-accountHolder">נא להזין שם בעל החשבון</div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">שלח נתונים ←</button>
+
+      <div class="privacy-note">🔒 הנתונים מועברים בצורה מאובטחת לצורך הגשת מענק בלבד</div>
+    </form>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-box" id="successBox">
+    <div class="success-icon">✅</div>
+    <div class="success-title">תודה! הנתונים התקבלו</div>
+    <div class="success-msg">
+      הפרטים שלך נשלחו בהצלחה לצוות שאגת הארי.<br />
+      נציג יצור איתך קשר בהקדם.
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ─────────────────────────────────────────────
+  // החלף את ה-URL הזה בכתובת שלך (ראה הוראות למטה בקובץ)
+  const SUBMIT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwwSeb865EH8Zp8wKBh41aj9xBRIpYO0xHjpBVAXyE2FAr55ddL3y3r_d1KV_uXDicE/exec";
+  // ───────────────────────────────────────────────────────
+
+  const form = document.getElementById("clientForm");
+  const btn  = document.getElementById("submitBtn");
+
+  function showError(fieldId, show) {
+    const input = document.getElementById(fieldId);
+    const err   = document.getElementById("err-" + fieldId);
+    input.classList.toggle("error", show);
+    if (err) err.style.display = show ? "block" : "none";
+  }
+
+  function validateID(val) {
+    val = val.replace(/\D/g, "");
+    if (val.length !== 9) return false;
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+      let d = +val[i] * (i % 2 === 0 ? 1 : 2);
+      if (d > 9) d -= 9;
+      sum += d;
+    }
+    return sum % 10 === 0;
+  }
+
+  function validate() {
+    let ok = true;
+
+    const name = document.getElementById("fullName").value.trim();
+    if (!name) { showError("fullName", true); ok = false; }
+    else        { showError("fullName", false); }
+
+    const id = document.getElementById("idNumber").value.trim();
+    if (!validateID(id)) { showError("idNumber", true); ok = false; }
+    else                  { showError("idNumber", false); }
+
+    ["turnover_3_4_25", "turnover_3_4_26", "turnover_2025"].forEach(f => {
+      const v = document.getElementById(f).value;
+      if (v === "" || isNaN(v) || +v < 0) { showError(f, true); ok = false; }
+      else                                  { showError(f, false); }
+    });
+
+    // WhatsApp validation
+    const wa = document.getElementById("whatsapp").value.trim();
+    const waClean = wa.replace(/\D/g, "");
+    const waWrap = document.getElementById("whatsapp").closest(".phone-wrap");
+    if (!/^0[5][0-9]{8}$/.test(waClean)) {
+      showError("whatsapp", true);
+      waWrap.classList.add("error");
+      ok = false;
+    } else {
+      showError("whatsapp", false);
+      waWrap.classList.remove("error");
+    }
+
+    // Bank validation
+    const bankName = document.getElementById("bankName").value;
+    if (!bankName) { showError("bankName", true); ok = false; }
+    else            { showError("bankName", false); }
+
+    const bankNumber = document.getElementById("bankNumber").value.trim();
+    if (!bankNumber || !/^\d+$/.test(bankNumber)) { showError("bankNumber", true); ok = false; }
+    else                                            { showError("bankNumber", false); }
+
+    const branchNumber = document.getElementById("branchNumber").value.trim();
+    if (!branchNumber || !/^\d+$/.test(branchNumber)) { showError("branchNumber", true); ok = false; }
+    else                                                { showError("branchNumber", false); }
+
+    const accountNumber = document.getElementById("accountNumber").value.trim();
+    if (!accountNumber || !/^\d+$/.test(accountNumber)) { showError("accountNumber", true); ok = false; }
+    else                                                  { showError("accountNumber", false); }
+
+    const accountHolder = document.getElementById("accountHolder").value.trim();
+    if (!accountHolder) { showError("accountHolder", true); ok = false; }
+    else                 { showError("accountHolder", false); }
+
+    return ok;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    btn.disabled = true;
+    btn.textContent = "שולח...";
+
+    const payload = {
+      שם_מלא:               document.getElementById("fullName").value.trim(),
+      תעודת_זהות:           document.getElementById("idNumber").value.trim(),
+      וואטסאפ:              document.getElementById("whatsapp").value.trim().replace(/\D/g, ""),
+      מחזור_מרץ_אפריל_2025: +document.getElementById("turnover_3_4_25").value,
+      מחזור_מרץ_אפריל_2026: +document.getElementById("turnover_3_4_26").value,
+      מחזור_שנתי_2025:      +document.getElementById("turnover_2025").value,
+      שם_הבנק:              document.getElementById("bankName").value,
+      מספר_בנק:             document.getElementById("bankNumber").value.trim(),
+      מספר_סניף:            document.getElementById("branchNumber").value.trim(),
+      מספר_חשבון:           document.getElementById("accountNumber").value.trim(),
+      שם_בעל_החשבון:        document.getElementById("accountHolder").value.trim(),
+      timestamp:             new Date().toISOString()
+    };
+
+    // fetch עם no-cors — שולח כ-text/plain (simple request, ללא preflight CORS)
+    // Apps Script מקבל את הנתונים ב-e.postData.contents
+    fetch(SUBMIT_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(payload)
+    }).catch(function(){});
+    // always show success — data was sent
+    document.getElementById("formSection").style.display = "none";
+    document.getElementById("successBox").style.display  = "block";
+  });
+
+  // Only allow digits in certain fields
+  ["idNumber","bankNumber","branchNumber","accountNumber","whatsapp"].forEach(id => {
+    document.getElementById(id).addEventListener("input", function() {
+      this.value = this.value.replace(/\D/g, "");
+    });
+  });
+
+  // ── דף אישור הגשה — מופיע כש-URL מכיל ?confirm=1 ──
+  (function() {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get('confirm') !== '1') return;
+
+    const clientName = p.get('name') || '';
+    const clientId   = p.get('id')   || '';
+    const phone      = p.get('phone')|| '';
+    const CONFIRM_EP = "https://formspree.io/f/mrejlkdg";
+
+    document.title = 'אישור הגשת מענק – שאגת הארי';
+    document.body.innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+      background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);direction:rtl;font-family:'Segoe UI',Arial,sans-serif">
+      <div style="width:100%;max-width:420px;border-radius:20px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)">
+
+        <div style="background:#fff;padding:28px 24px 22px;text-align:center;border-bottom:1px solid #f0f0f0">
+          <div style="font-size:10px;color:#aaa;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">אייל רז ושות׳ · רואי חשבון</div>
+          <div style="font-size:22px;font-weight:800;color:#111;letter-spacing:-0.5px">מענק שאגת הארי</div>
+          <div style="display:inline-block;width:28px;height:3px;background:#f0a500;border-radius:2px;margin-top:10px"></div>
+        </div>
+
+        <div style="background:#fff;padding:28px 24px 24px" id="confirmPending">
+          <div style="background:#f8f8f8;border-radius:12px;padding:18px;margin-bottom:22px;position:relative">
+            <div style="position:absolute;top:0;right:0;width:4px;height:100%;background:#f0a500;border-radius:0 12px 12px 0"></div>
+            <div id="confirmMsg" style="font-size:13px;color:#444;line-height:1.8">
+              לאחר בדיקת הנתונים שמסרת, נראה כי עסקך עומד <strong>כנראה</strong> בתנאי הזכאות למענק שאגת הארי עבור תקופת המלחמה.
+            </div>
+          </div>
+
+          <div style="margin-bottom:22px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid #f0f0f0;margin-bottom:12px">
+              <span style="font-size:12px;color:#888">שכר טרחה להגשת הבקשה</span>
+              <span style="font-size:15px;font-weight:800;color:#111">400 ₪ + מע"מ</span>
+            </div>
+            <div style="font-size:13px;color:#111;font-weight:700;line-height:1.55">
+              שכר הטרחה ישולם רק לאחר <span style="color:#f0a500">שיאושר</span> המענק
+            </div>
+          </div>
+
+          <div style="font-size:12.5px;color:#888;margin-bottom:20px;line-height:1.6">
+            לאישור הגשת הבקשה על ידי משרדנו, לחץ על הכפתור למטה.
+          </div>
+
+          <button onclick="doConfirm()" id="confirmBtn"
+            style="display:block;width:100%;padding:16px;background:#111;border:none;border-radius:12px;
+              font-size:15px;font-weight:800;color:#f0a500;cursor:pointer;margin-bottom:11px;letter-spacing:0.4px">
+            ✔ אני מאשר את הגשת המענק
+          </button>
+          <span onclick="doDecline()" style="display:block;text-align:center;font-size:12px;color:#ccc;text-decoration:underline;cursor:pointer;margin-bottom:16px">
+            לא מעוניין בשלב זה
+          </span>
+          <div style="text-align:center;font-size:10.5px;color:#ccc">🔒 הנתונים שלך מאובטחים ולא יועברו לגורם שלישי</div>
+        </div>
+
+        <div id="confirmResult" style="display:none;background:#fff;padding:52px 28px;text-align:center">
+          <div id="rIcon" style="font-size:52px;margin-bottom:18px">✅</div>
+          <div id="rTitle" style="font-size:22px;font-weight:800;color:#111;margin-bottom:10px">האישור התקבל!</div>
+          <div id="rMsg" style="font-size:14px;color:#555;line-height:1.75">תודה! משרד <strong>אייל רז ושות׳</strong> יטפל בהגשת הבקשה בהקדם.<br/><br/>נעדכן אותך בכל התפתחות.</div>
+        </div>
+      </div>
+    </div>`;
+
+    if (clientName) {
+      document.getElementById('confirmMsg').innerHTML =
+        `שלום <strong>${clientName}</strong>,<br/><br/>לאחר בדיקת הנתונים שמסרת, נראה כי עסקך עומד <strong>כנראה</strong> בתנאי הזכאות למענק שאגת הארי עבור תקופת המלחמה.`;
+    }
+
+    window.doConfirm = async function() {
+      const btn = document.getElementById('confirmBtn');
+      btn.disabled = true; btn.textContent = 'שולח אישור...';
+      try {
+        await fetch(CONFIRM_EP, { method:'POST',
+          headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body: JSON.stringify({ סוג:'אישור_הגשה', לקוח_id:clientId, שם_לקוח:clientName, טלפון:phone, timestamp:new Date().toISOString() })
+        });
+      } catch(e) {}
+      document.getElementById('confirmPending').style.display = 'none';
+      document.getElementById('confirmResult').style.display  = 'block';
+    };
+
+    window.doDecline = function() {
+      if (!confirm('האם אתה בטוח שאינך מעוניין? הזכאות עשויה לפקוע.')) return;
+      fetch(CONFIRM_EP, { method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({ סוג:'סירוב_הגשה', לקוח_id:clientId, שם_לקוח:clientName, timestamp:new Date().toISOString() })
+      }).catch(()=>{});
+      document.getElementById('confirmPending').style.display = 'none';
+      document.getElementById('rIcon').textContent  = '👋';
+      document.getElementById('rTitle').textContent = 'הבנו, תודה';
+      document.getElementById('rMsg').innerHTML     = 'אם תשנה דעתך תוכל לפנות אלינו בכל עת.<br/><br/><strong>אייל רז ושות׳</strong> — עמדים לשירותך';
+      document.getElementById('confirmResult').style.display = 'block';
+    };
+  })();
+</script>
+</body>
+</html>
