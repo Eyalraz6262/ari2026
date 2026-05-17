@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>בדיקת זכאות – שאגת הארי</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      direction: rtl;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: #fff;
+      padding: 28px 24px 22px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .hero-firm {
+      font-size: 10px;
+      color: #aaa;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111;
+      letter-spacing: -0.5px;
+    }
+    .hero-accent {
+      display: inline-block;
+      width: 28px;
+      height: 3px;
+      background: #f0a500;
+      border-radius: 2px;
+      margin-top: 10px;
+    }
+
+    /* ── BODY ── */
+    .body { background: #fff; padding: 28px 24px 24px; }
+
+    .msg-box {
+      background: #fff5f5;
+      border: 1.5px solid #fca5a5;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .msg-icon { font-size: 18px; color: #dc2626; flex-shrink: 0; margin-top: 2px; }
+    .msg-text { font-size: 13px; color: #7f1d1d; line-height: 1.8; }
+    .msg-text strong { color: #111; font-weight: 800; }
+
+    /* ── INFO BLOCK ── */
+    .info-block {
+      margin-bottom: 22px;
+      padding: 14px 18px;
+      background: #f8f8f8;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.8;
+    }
+
+    /* ── TID INPUT ── */
+    .tid-block { margin-bottom: 20px; }
+    .tid-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #444;
+      margin-bottom: 7px;
+    }
+    .tid-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      direction: ltr;
+      text-align: center;
+      letter-spacing: 2px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .tid-input:focus { border-color: #f0a500; }
+    .tid-input.error { border-color: #e05555; background: #fff5f5; }
+    .tid-error {
+      font-size: 11px;
+      color: #e05555;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .instruction {
+      font-size: 12.5px;
+      color: #888;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* ── BUTTONS ── */
+    .confirm-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #111;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #f0a500;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 11px;
+      letter-spacing: 0.4px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .confirm-btn:hover  { background: #2a2a2a; transform: translateY(-1px); }
+    .confirm-btn:active { transform: translateY(0); }
+    .confirm-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .privacy-note {
+      text-align: center;
+      font-size: 10.5px;
+      color: #ccc;
+    }
+
+    /* ── RESULT STATE ── */
+    .result-box {
+      display: none;
+      background: #fff;
+      padding: 52px 28px;
+      text-align: center;
+    }
+    .result-icon  { font-size: 52px; margin-bottom: 18px; }
+    .result-title { font-size: 22px; font-weight: 800; color: #111; margin-bottom: 10px; }
+    .result-msg   { font-size: 14px; color: #555; line-height: 1.75; }
+    .result-msg strong { color: #111; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="hero">
+    <div class="hero-firm">אייל רז ושות׳ · רואי חשבון</div>
+    <div class="hero-title">מענק שאגת הארי</div>
+    <div><span class="hero-accent"></span></div>
+  </div>
+
+  <!-- PENDING -->
+  <div class="body" id="pendingBox">
+
+    <div class="msg-box">
+      <span class="msg-icon">✕</span>
+      <div class="msg-text" id="mainTitle">
+        על פי הנתונים שבידינו, עסקך <strong>אינו עומד</strong> בתנאי הזכאות למענק שאגת הארי
+      </div>
+    </div>
+
+    <div class="info-block">
+      אם סבור/ת כי מדובר בטעות, או שחל שינוי בנתוני העסק — ניתן לפנות אלינו ונבחן מחדש את הזכאות.
+    </div>
+
+    <div class="tid-block">
+      <label class="tid-label" for="tidInput">מספר תעודת זהות <span style="color:#e05555">*</span></label>
+      <input class="tid-input" id="tidInput" type="tel" inputmode="numeric"
+             placeholder="000000000" maxlength="9" autocomplete="off"/>
+      <div class="tid-error" id="tidError">יש להזין מספר תעודת זהות תקין</div>
+    </div>
+
+    <div class="instruction">
+      לאישור קבלת ההודעה, לחץ על הכפתור למטה.
+    </div>
+
+    <button class="confirm-btn" id="confirmBtn" onclick="handleConfirm()">
+      ✔ קיבלתי את ההודעה
+    </button>
+
+    <div class="privacy-note">🔒 האתונים שלך מאובטחים ולא יועברו לגורם שלישי</div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-box" id="resultBox">
+    <div class="result-icon">📩</div>
+    <div class="result-title">תודה, ההודעה התקבלה</div>
+    <div class="result-msg">
+      אם תרצה/י לברר פרטים נוספים, משרד <strong>אייל רז ושות׳</strong> עומד לרשותך.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const CONFIRM_ENDPOINT = "https://formspree.io/f/mrejlkdg";
+
+  const params     = new URLSearchParams(window.location.search);
+  const clientId   = params.get("id")    || "";
+  const clientName = params.get("name")  || "";
+  const phone      = params.`et("phone") || "";
+
+  if (clientName) {
+    document.getElementById("mainTitle").innerHTML =
+      `שלום <strong>${clientName}</strong>,<br/><br/>על פי הנתונים שבידינו, עסקך <strong>אינו עומד</strong> בתנאי הזכאות למענק שאגת הארי.`;
+  }
+
+  async function handleConfirm() {
+    const tidInput = document.getElementById("tidInput");
+    const tidError = document.getElementById("tidError");
+    const tidVal   = (tidInput.value || "").trim().replace(/\D/g, "");
+    if (tidVal.length < 5) {
+      tidInput.classList.add("error");
+      tidError.style.display = "block";
+      tidInput.focus();
+      return;
+    }
+    tidInput.classList.remove("error");
+    tidError.style.display = "none";
+
+    const btn = document.getElementById("confirmBtn");
+    btn.disabled = true;
+    btn.textContent = "שולח...";
+
+    try {
+      await fetch(CONFIRM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          סוג: "אישור_קריאה_לא_זכאי", לקוח_id: clientId, תז_מאמת: tidVal,
+          שם_לקוח: clientName, טלפון: phone,
+          פעולה: "אישר קריאה - לא זכאי", timestamp: new Date().toISOString()
+        })
+      });
+    } catch(e) {}
+
+    document.getElementById("pendingBox").style.display = "none";
+    document.getElementById("resultBox").style.display  = "block";
+  }
+</script>
+</body>
+</html>
