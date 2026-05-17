@@ -217,11 +217,25 @@
 
 <script>
   const CONFIRM_ENDPOINT = "https://formspree.io/f/mrejlkdg";
+const SHEETS_API_URL   = "https://script.google.com/macros/s/AKfycbwdUwyUgIZw1bxu-3h5TRn04c1WSmnVDQr-6DPhrsrOZxXbyjjr9K5GNcrr_Bxhfa5j/exec";
+
+function pushToSheets(tid, field, value) {
+  if (!tid) return;
+  const cb  = '__psh_' + Date.now();
+  const url = `${SHEETS_API_URL}?action=setField&tid=${encodeURIComponent(tid)}&field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}&callback=${cb}&t=${Date.now()}`;
+  window[cb] = () => { delete window[cb]; };
+  const s = document.createElement('script');
+  s.src = url;
+  s.onerror = () => { delete window[cb]; };
+  document.head.appendChild(s);
+  setTimeout(() => { s.remove && s.remove(); delete window[cb]; }, 12000);
+}
+
 
   const params     = new URLSearchParams(window.location.search);
   const clientId   = params.get("id")    || "";
   const clientName = params.get("name")  || "";
-  const phone      = params.`et("phone") || "";
+  const phone      = params.get("phone") || "";
 
   if (clientName) {
     document.getElementById("mainTitle").innerHTML =
@@ -257,7 +271,11 @@
       });
     } catch(e) {}
 
-    document.getElementById("pendingBox").style.display = "none";
+    
+  // עדכון ישיר ב-Google Sheets
+  pushToSheets(clientId, 'שכט מאושר', 'לא זכאי');
+
+  document.getElementById("pendingBox").style.display = "none";
     document.getElementById("resultBox").style.display  = "block";
   }
 </script>
