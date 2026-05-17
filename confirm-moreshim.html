@@ -243,6 +243,20 @@
 
 <script>
   const CONFIRM_ENDPOINT = "https://formspree.io/f/mrejlkdg";
+  const SHEETS_API_URL   = "https://script.google.com/macros/s/AKfycbyA2Jg6K7VAkkOhTyJZSwH08sGxi3DUr1VITi0rFQzGie0k-3t2sjFQQ5EE-pEpzQMZ/exec";
+
+  function pushToSheets(tid, field, value) {
+    if (!tid) return;
+    const cb  = '__psh_' + Date.now();
+    const url = `${SHEETS_API_URL}?action=setField&tid=${encodeURIComponent(tid)}&field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}&callback=${cb}&t=${Date.now()}`;
+    window[cb] = () => { delete window[cb]; };
+    const s = document.createElement('script');
+    s.src = url;
+    s.onerror = () => { delete window[cb]; };
+    document.head.appendChild(s);
+    setTimeout(() => { s.remove && s.remove(); delete window[cb]; }, 12000);
+  }
+
 
   const params     = new URLSearchParams(window.location.search);
   const clientId   = params.get("id")    || "";
@@ -283,6 +297,10 @@
         })
       });
     } catch(e) {}
+
+    // עדכון ישיר ב-Google Sheets
+    pushToSheets(clientId, 'שכט מאושר', 'כן');
+
 
     showResult("✅", "האישור התקבל!", `
       תודה! משרד <strong>אייל רז ושות׳</strong> יטפל בהגשת הבקשה בהקדם.<br /><br />
