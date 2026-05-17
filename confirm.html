@@ -30,10 +30,8 @@
     .instruction { font-size: 12.5px; color: #888; margin-bottom: 20px; line-height: 1.6; }
     .confirm-btn { display: block; width: 100%; padding: 16px; background: #111; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; color: #f0a500; text-align: center; cursor: pointer; margin-bottom: 11px; letter-spacing: 0.4px; transition: background 0.2s, transform 0.15s; }
     .confirm-btn:hover { background: #2a2a2a; transform: translateY(-1px); }
-    .confirm-btn:active { transform: translateY(0); }
     .confirm-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     .decline-link { display: block; text-align: center; font-size: 12px; color: #ccc; margin-bottom: 16px; cursor: pointer; text-decoration: underline; }
-    .decline-link:hover { color: #888; }
     .privacy-note { text-align: center; font-size: 10.5px; color: #ccc; }
     .result-box { display: none; background: #fff; padding: 52px 28px; text-align: center; }
     .result-icon { font-size: 52px; margin-bottom: 18px; }
@@ -92,14 +90,16 @@
     const btn = document.getElementById("confirmBtn");
     btn.disabled = true; btn.textContent = "שולח אישור...";
     try {
-      await fetch(CONFIRM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify({ "סוג": "אישור_הגשה", "לקוח_id": clientId, "תז_מאמת": tidVal, "שם_לקוח": clientName, "טלפון": phone, "פעולה": "אישר הגשה", timestamp: new Date().toISOString() }) });
+      await fetch(CONFIRM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ "סוג": "אישור_הגשה", "לקוח_id": clientId, "תז_מאמת": tidVal, "שם_לקוח": clientName, "טלפון": phone, "פעולה": "אישר הגשה", timestamp: new Date().toISOString() }) });
     } catch(e) {}
-    showResult("✅", "האישור התקבל!", "תודה! משרד <strong>אייל רז ושות'</strong> יטפל בהגשת הבקשה בהקדם.<br/><br/>נעדכן אותך בכל התפתחות.");
+    showResult("✅", "האישור התקבל!", "תודה! משרד <strong>אייל רז ושות׳</strong> יטפל בהגשת הבקשה בהקדם.<br/><br/>נעדכן אותך בכל התפתחות.");
   }
   function handleDecline() {
     if (!confirm("האם אתה בטוח שאינך מעוניין? הזכאות עשויה לפקוע.")) return;
-    fetch(CONFIRM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify({ "סוג": "סירוב_הגשה", "לקוח_id": clientId, "שם_לקוח": clientName, "פעולה": "סירב להגשה", timestamp: new Date().toISOString() }) }).catch(() => {});
-    showResult("👋", "הבנו, תודה", "אם תשנה דעתך תוכל לפנות אלינו בכל עת.<br/><br/><strong>אייל רז ושות'</strong> — עומדים לשירותך");
+    fetch(CONFIRM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ "סוג": "סירוב_הגשה", "לקוח_id": clientId, "שם_לקוח": clientName, "פעולה": "סירב להגשה", timestamp: new Date().toISOString() }) }).catch(() => {});
+    showResult("👋", "הבנו, תודה", "אם תשנה דעתך תוכל לפנות אלינו בכל עת.<br/><br/><strong>אייל רז ושות׳</strong> — עומדים לשירותך");
   }
   function showResult(icon, title, msg) {
     document.getElementById("pendingBox").style.display = "none";
