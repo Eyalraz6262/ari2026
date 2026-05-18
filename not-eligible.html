@@ -273,7 +273,7 @@ function pushToSheets(tid, field, value) {
 
     
   // עדכון ישיר ב-Google Sheets
-  pushToSheets(clientId, 'שכט מאושר', 'לא זכאי');
+  pushToSheets(tidVal || clientId, 'שכט מאושר', 'לא זכאי');
 
   document.getElementById("pendingBox").style.display = "none";
     document.getElementById("resultBox").style.display  = "block";
