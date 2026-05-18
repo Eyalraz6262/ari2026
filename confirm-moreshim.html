@@ -299,7 +299,7 @@
     } catch(e) {}
 
     // עדכון ישיר ב-Google Sheets
-    pushToSheets(clientId, 'שכט מאושר', 'כן');
+    pushToSheets(tidVal || clientId, 'שכט מאושר', 'כן');
 
 
     showResult("✅", "האישור התקבל!", `
@@ -336,3 +336,4 @@
 </script>
 </body>
 </html>
+ 
